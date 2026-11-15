@@ -88,7 +88,10 @@ if (fields.length) records = records.filter((r) => fields.every((f) => dig(r, f)
 if (grepRe) records = records.filter((r) => grepRe.test(typeof r === 'string' ? r : JSON.stringify(r)) && !(typeof r === 'object' && r !== null && !grepRe.test(JSON.stringify(r))));
 
 const headN = get(o, 'head', null);
-if (headN !== null) records = records.slice(0, num(headN, 10));
+if (headN !== null) {
+  const parsedHead = num(headN, 10);
+  records = records.slice(0, parsedHead);
+}
 
 const sampleN = get(o, 'sample', null);
 let sampleNote = null;

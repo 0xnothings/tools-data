@@ -86,14 +86,66 @@ const ENCODINGS = { 1: 'UTF-8', 2: 'UTF-16le', 3: 'UTF-16be' };
 
 function readVarint(buf, off) {
   let v = 0n;
-  let p = off;
   for (let i = 0; i < 9; i++) {
-    const b = buf[p + i];
-    if (i === 8) { v = (v << 8n) | BigInt(b); p++; break; }
+    const b = buf[off + i];
+    if (b === undefined) return [v, i];
+    if (i === 8) { v = (v << 8n) | BigInt(b); return [v, 9]; }
     v = (v << 7n) | BigInt(b & 0x7f);
-    if (!(b & 0x80)) { p++; break; }
+    if (!(b & 0x80)) return [v, i + 1];
   }
-  return [v, p - off];
+  return [v, 9];
+}
+
+/** Decode one value given its serial type, at byte offset `at` in `buf`. */
+function decodeValue(buf, at, type) {
+  if (type === 0) return null;
+  if (type === 8) return 0;
+  if (type === 9) return 1;
+  if (type >= 1 && type <= 6) {
+    const n = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 6, 6: 8 }[type];
+    let v = 0n;
+    for (let i = 0; i < n; i++) v = (v << 8n) | BigInt(buf[at + i]);
+    return Number(BigInt.asIntN(n * 8, v));
+  }
+  if (type === 7) return buf.readDoubleBE(at);
+  if (type >= 12) {
+    const n = Math.floor((type - 12) / 2);
+    const bytes = Buffer.from(buf.subarray(at, at + n));
+    return type % 2 === 1 ? bytes.toString('utf8') : bytes.toString('hex');
+  }
+  return null;
+}
+
+const SERIAL_SIZE = (t) => {
+  if (t === 0 || t === 8 || t === 9) return 0;
+  if (t >= 1 && t <= 4) return t;
+  if (t === 5) return 6;
+  if (t === 6 || t === 7) return 8;
+  if (t >= 12) return Math.floor((t - 12) / 2);
+  return 0;
+};
+
+/**
+ * Decode a SQLite record. Layout: [header-length varint][serial-type varints...]
+ * then the values in order. The header length includes its own varint.
+ */
+function parseRecord(source, at, limit) {
+  const [hdrLenRaw, hdrVarBytes] = readVarint(source, at);
+  const hdrLen = Number(hdrLenRaw);
+  const typesStart = at + hdrVarBytes;
+  const headerEnd = Math.min(at + hdrLen, limit);
+  const out = [];
+  let tc = typesStart;
+  let vc = at + hdrLen;
+  while (tc < headerEnd) {
+    const [typeRaw, tLen] = readVarint(source, tc);
+    const type = Number(typeRaw);
+    out.push(decodeValue(source, vc, type));
+    vc += SERIAL_SIZE(type);
+    tc += tLen;
+    if (vc > limit) break;
+  }
+  return out;
 }
 
 function readSerial(buf, off) {
@@ -116,7 +168,9 @@ function readSerial(buf, off) {
   else if (t >= 12) {
     const n = Math.floor((t - 12) / 2);
     const bytes = buf.subarray(at, at + n);
-    value = t % 2 === 1 ? Buffer.from(bytes).toString('utf8') : Buffer.from(bytes).toString('hex');
+    value = t % 2 === 1
+      ? Buffer.from(bytes).toString('utf8')
+      : Buffer.from(bytes).toString('hex');
     len += n;
   } else value = null;
   return [value, len];
@@ -178,15 +232,9 @@ function parseLeaf(buf, pageNo, records, depth = 0) {
         remaining -= take;
         nextPage = ov.readUInt32BE(0);
       }
-      const fields = [];
-      const [hdrLen, hl] = readVarint(payload, 0);
-      let cursor = hl;
-      const headerEnd = Math.min(Number(hdrLen), payload.length);
-      while (cursor < headerEnd) {
-        const [v, consumed] = readSerial(payload, cursor);
-        fields.push(v);
-        cursor += consumed;
-      }
+      // A record header is [header-length varint][serial type varints...], and the
+      // values live after the whole header — see parseRecord.
+      const fields = parseRecord(buf, p, pageSize);
       records.push({ rowid: Number(BigInt.asIntN(64, rowidRaw)), values: fields, page: pageNo });
     } else {
       let p = cellPtr;
@@ -213,15 +261,7 @@ function parseLeaf(buf, pageNo, records, depth = 0) {
         remaining -= take;
         nextPage = ov.readUInt32BE(0);
       }
-      const fields = [];
-      const [hdrLen, hl] = readVarint(payload, 0);
-      let cursor = hl;
-      const headerEnd = Math.min(Number(hdrLen), payload.length);
-      while (cursor < headerEnd) {
-        const [v, consumed] = readSerial(payload, cursor);
-        fields.push(v);
-        cursor += consumed;
-      }
+      const fields = parseRecord(payload, 0, payload.length);
       records.push({ rowid: null, values: fields, page: pageNo });
     }
   }
@@ -291,33 +331,37 @@ if (wantSearch) {
   process.exit(0);
 }
 
-if (flag(o, 'page')) {
+if (get(o, 'page', null) !== null) {
   const n = num(get(o, 'page', 1), 1);
   const p = page(n);
   if (!p) die(`page ${n} is outside the file (1..${effectivePages})`);
-  const typeByte = p[0];
+  const hdrBase = n === 1 ? 100 : 0;
+  const typeByte = p[hdrBase];
   const types = { 0x02: 'interior index', 0x05: 'interior table', 0x0a: 'leaf index', 0x0d: 'leaf table' };
   if (flag(o, 'json')) {
     process.stdout.write(JSON.stringify({
       page: n, type: types[typeByte] || `unknown (0x${typeByte.toString(16)})`,
-      firstFreeblock: p.readUInt16BE(1), nCells: p.readUInt16BE(3),
-      cellContentStart: p.readUInt16BE(5), fragmentedBytes: p[7],
-      rightMostPointer: [0x02, 0x05].includes(typeByte) ? p.readUInt32BE(8) : null,
-      first16BytesHex: p.subarray(0, 16).toString('hex').match(/.{2}/g).join(' '),
+      firstFreeblock: p.readUInt16BE(hdrBase + 1), nCells: p.readUInt16BE(hdrBase + 3),
+      cellContentStart: p.readUInt16BE(hdrBase + 5), fragmentedBytes: p[hdrBase + 7],
+      rightMostPointer: [0x02, 0x05].includes(typeByte) ? p.readUInt32BE(hdrBase + 8) : null,
+      headerOffset: hdrBase,
+      first16BytesHex: p.subarray(hdrBase, hdrBase + 16).toString('hex').match(/.{2}/g).join(' '),
     }, null, 2) + '\n');
   } else {
     const out = [];
     out.push(`page ${n} of ${effectivePages}  (${types[typeByte] || 'unknown type 0x' + typeByte.toString(16)})`);
-    out.push(`  first freeblock   ${p.readUInt16BE(1)}`);
-    out.push(`  cell count        ${p.readUInt16BE(3)}`);
-    out.push(`  cell content @    ${p.readUInt16BE(5)}`);
-    out.push(`  fragmented bytes  ${p[7]}`);
-    if ([0x02, 0x05].includes(typeByte)) out.push(`  rightmost child   ${p.readUInt32BE(8)}`);
-    out.push(`  header hex        ${p.subarray(0, 16).toString('hex').match(/.{2}/g).join(' ')}`);
+    out.push(`  b-tree header @   ${hdrBase}${n === 1 ? ' (after the 100-byte file header)' : ''}`);
+    out.push(`  first freeblock   ${p.readUInt16BE(hdrBase + 1)}`);
+    out.push(`  cell count        ${p.readUInt16BE(hdrBase + 3)}`);
+    out.push(`  cell content @    ${p.readUInt16BE(hdrBase + 5)}`);
+    out.push(`  fragmented bytes  ${p[hdrBase + 7]}`);
+    if ([0x02, 0x05].includes(typeByte)) out.push(`  rightmost child   ${p.readUInt32BE(hdrBase + 8)}`);
+    out.push(`  header hex        ${p.subarray(hdrBase, hdrBase + 16).toString('hex').match(/.{2}/g).join(' ')}`);
     out.push('');
+    const ptrBase = [0x02, 0x05].includes(typeByte) ? hdrBase + 12 : hdrBase + 8;
     const cellPtrs = [];
-    for (let i = 0; i < Math.min(p.readUInt16BE(3), 24); i++) cellPtrs.push(p.readUInt16BE(8 + i * 2));
-    if (cellPtrs.length) out.push(`first ${cellPtrs.length} cell pointers: ${cellPtrs.join(', ')}`);
+    for (let i = 0; i < Math.min(p.readUInt16BE(hdrBase + 3), 24); i++) cellPtrs.push(p.readUInt16BE(ptrBase + i * 2));
+    if (cellPtrs.length) out.push(`first ${cellPtrs.length} cell pointers (base +${ptrBase - hdrBase}): ${cellPtrs.join(', ')}`);
     process.stdout.write(out.join('\n') + '\n');
   }
   closeSync(fd);

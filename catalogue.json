@@ -11,6 +11,76 @@
     ]
   },
   {
+    "link": "tools/binarydiff.js",
+    "name": "binarydiff",
+    "desc": "Byte-level diff of two binaries with offset-anchored hunks, resync and per-region entropy",
+    "usage": "node tools/binarydiff.js old.bin new.bin --json",
+    "tags": [
+      "data",
+      "binary",
+      "diff",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/binsplit.js",
+    "name": "binsplit",
+    "desc": "Split a binary into size-bounded or pattern-anchored chunks and verify reassembly by checksum",
+    "usage": "node tools/binsplit.js dump.bin --chunk 1m --out ./parts --json",
+    "tags": [
+      "data",
+      "binary",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/bmpread.js",
+    "name": "bmpread",
+    "desc": "Parse BMP files: DIB variant, geometry, bit depth, compression, palette and pixel-byte validation",
+    "usage": "node tools/bmpread.js image.bmp --json",
+    "tags": [
+      "data",
+      "image",
+      "binary",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/byterange.js",
+    "name": "byterange",
+    "desc": "Extract, replace or XOR/patch byte ranges in a file, with offsets, hex and SHA-256 verification",
+    "usage": "node tools/byterange.js firmware.bin --at 0x100 --len 64 --json",
+    "tags": [
+      "data",
+      "binary",
+      "patch",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/carver.js",
+    "name": "carver",
+    "desc": "Carve JPEG/PNG/GIF/PDF/ZIP/ELF/MP4 payloads out of a raw blob with size validation",
+    "usage": "node tools/carver.js disk.img --out ./recovered --json",
+    "tags": [
+      "data",
+      "forensics",
+      "binary",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/cpio.js",
+    "name": "cpio",
+    "desc": "Read cpio archives (newc/crc/odc/binary) listing names, sizes, inodes and modes",
+    "usage": "node tools/cpio.js rootfs.cpio.gz --json",
+    "tags": [
+      "data",
+      "archive",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/csvdiff.js",
     "name": "csvdiff",
     "desc": "Key-based CSV diff reporting added, removed and changed rows field by field",
@@ -117,6 +187,18 @@
     ]
   },
   {
+    "link": "tools/entropyscan.js",
+    "name": "entropyscan",
+    "desc": "Per-block Shannon entropy map of a file to locate encrypted, compressed or embedded payloads",
+    "usage": "node tools/entropyscan.js firmware.bin --block 256 --json",
+    "tags": [
+      "data",
+      "binary",
+      "forensics",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/exifread.js",
     "name": "exifread",
     "desc": "Parse JPEG EXIF: camera, exposure, orientation, timestamps, GPS coordinates",
@@ -126,6 +208,18 @@
       "images",
       "exif",
       "metadata",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/filetype.js",
+    "name": "filetype",
+    "desc": "Identify file types from magic bytes (90+ formats) plus container-level details",
+    "usage": "node tools/filetype.js mystery.bin --json",
+    "tags": [
+      "data",
+      "binary",
+      "forensics",
       "cli"
     ]
   },
@@ -142,6 +236,17 @@
     ]
   },
   {
+    "link": "tools/graphtext.js",
+    "name": "graphtext",
+    "desc": "Render sparklines, bars, histograms, scatter and boxplots from numeric series with no dependencies",
+    "usage": "node tools/graphtext.js series.txt --chart bar --json",
+    "tags": [
+      "data",
+      "charts",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/hashdir.js",
     "name": "hashdir",
     "desc": "Hash a directory tree into a manifest and verify it later, detecting drift",
@@ -150,6 +255,30 @@
       "files",
       "hashing",
       "integrity",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/hexdumpx.js",
+    "name": "hexdumpx",
+    "desc": "Configurable hexdump with grouping, offset base and reverse mode back into binary",
+    "usage": "node tools/hexdumpx.js firmware.bin --width 32 --base 0 --json",
+    "tags": [
+      "data",
+      "binary",
+      "hex",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/icoextract.js",
+    "name": "icoextract",
+    "desc": "Enumerate and extract the PNG/BMP frames inside ICO and CUR icon files",
+    "usage": "node tools/icoextract.js app.ico --out ./icons --json",
+    "tags": [
+      "data",
+      "image",
+      "binary",
       "cli"
     ]
   },
@@ -166,6 +295,17 @@
     ]
   },
   {
+    "link": "tools/iniscan.js",
+    "name": "iniscan",
+    "desc": "Parse INI/config files and audit duplicates, quoting inconsistencies, whitespace and secret-looking values",
+    "usage": "node tools/iniscan.js app.ini --json",
+    "tags": [
+      "data",
+      "config",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/jsondiff.js",
     "name": "jsondiff",
     "desc": "Structural JSON diff with JSON-pointer paths, type changes and array diffing",
@@ -174,6 +314,17 @@
       "data",
       "json",
       "diff",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsonflatten.js",
+    "name": "jsonflatten",
+    "desc": "Flatten nested JSON to dotted paths (or rebuild it) with collision detection and round-trip verification",
+    "usage": "node tools/jsonflatten.js nested.json --sep . --verify --json",
+    "tags": [
+      "data",
+      "json",
       "cli"
     ]
   },
@@ -214,6 +365,41 @@
     ]
   },
   {
+    "link": "tools/jsonlint.js",
+    "name": "jsonlint",
+    "desc": "Lint JSON for duplicate keys, big-integer precision loss, BOM, comments, NaN, trailing data and deep nesting",
+    "usage": "node tools/jsonlint.js data.json --json",
+    "tags": [
+      "data",
+      "json",
+      "lint",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsonmask.js",
+    "name": "jsonmask",
+    "desc": "Mask or redact email/phone/card/IP/name/secret fields in JSON with a policy file and audit trail",
+    "usage": "node tools/jsonmask.js users.json --policy pii.json --style hash --json",
+    "tags": [
+      "data",
+      "json",
+      "privacy",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsonmerge.js",
+    "name": "jsonmerge",
+    "desc": "Deep merge multiple JSON files with last-wins/keep-first/error policies and a full conflict report",
+    "usage": "node tools/jsonmerge.js base.json override.json --policy last --json",
+    "tags": [
+      "data",
+      "json",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/jsonpath.js",
     "name": "jsonpath",
     "desc": "Query JSON with a JSONPath subset ($ .key [n] [*] ..key) and set values in place",
@@ -226,6 +412,17 @@
     ]
   },
   {
+    "link": "tools/jsonsplit.js",
+    "name": "jsonsplit",
+    "desc": "Split a JSON array into count- or size-bounded shards plus a verifiable index manifest",
+    "usage": "node tools/jsonsplit.js big.json --parts 8 --out ./shards --json",
+    "tags": [
+      "data",
+      "json",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/logtail.js",
     "name": "logtail",
     "desc": "Tail a log file with grep/level filters, follow simulation, JSON and histogram",
@@ -233,6 +430,40 @@
     "tags": [
       "logs",
       "text",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/mp4box.js",
+    "name": "mp4box",
+    "desc": "Walk an MP4/ISO-BMFF box tree and report tracks, durations, codecs and handler types",
+    "usage": "node tools/mp4box.js clip.mp4 --json",
+    "tags": [
+      "data",
+      "video",
+      "binary",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/netflowstat.js",
+    "name": "netflowstat",
+    "desc": "Roll up flow records by source, destination, port and ASN-ish group with top-N and share tables",
+    "usage": "node tools/netflowstat.js flows.csv --by src,dst --top 15 --json",
+    "tags": [
+      "data",
+      "network",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/numberfmt.js",
+    "name": "numberfmt",
+    "desc": "Format numbers as grouped, SI/IEC byte, significant-figure, scientific or engineering notation",
+    "usage": "node tools/numberfmt.js 1234567.891 --mode bytes --json",
+    "tags": [
+      "data",
+      "numbers",
       "cli"
     ]
   },
@@ -249,6 +480,29 @@
     ]
   },
   {
+    "link": "tools/schemadump.js",
+    "name": "schemadump",
+    "desc": "Parse CREATE TABLE/INDEX statements out of a SQL dump into a structured schema with keys and columns",
+    "usage": "node tools/schemadump.js dump.sql --json",
+    "tags": [
+      "data",
+      "sql",
+      "schema",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/snifftable.js",
+    "name": "snifftable",
+    "desc": "Turn packet summaries or a CSV export into top talkers, port and protocol tables plus a conversation matrix",
+    "usage": "node tools/snifftable.js capture.txt --top 10 --matrix --json",
+    "tags": [
+      "data",
+      "network",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/sortbig.js",
     "name": "sortbig",
     "desc": "External merge sort: chunk, sort, k-way merge with a min-heap; unique and dedupe",
@@ -257,6 +511,17 @@
       "data",
       "sort",
       "bigdata",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/sqlformat.js",
+    "name": "sqlformat",
+    "desc": "Format/beautify SQL and split multi-statement scripts without breaking string literals or comments",
+    "usage": "node tools/sqlformat.js dump.sql --upper --indent 2 --split --json",
+    "tags": [
+      "data",
+      "sql",
       "cli"
     ]
   },
@@ -273,6 +538,29 @@
     ]
   },
   {
+    "link": "tools/strings.js",
+    "name": "strings",
+    "desc": "Pull printable strings from binaries with ASCII/UTF-16 encodings, offsets, lengths and regex filters",
+    "usage": "node tools/strings.js sample.bin --min 5 --utf16 --json",
+    "tags": [
+      "data",
+      "binary",
+      "forensics",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/targz.js",
+    "name": "targz",
+    "desc": "List, inspect and extract tar / tar.gz archives without shelling out to tar",
+    "usage": "node tools/targz.js archive.tar.gz --json",
+    "tags": [
+      "data",
+      "archive",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/textstat.js",
     "name": "textstat",
     "desc": "Readability metrics for text: words, sentences, Flesch/Flesch-Kincaid, top words",
@@ -281,6 +569,18 @@
       "text",
       "analysis",
       "nlp",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/tomlpeek.js",
+    "name": "tomlpeek",
+    "desc": "Parse TOML tables, arrays, inline tables and datetime literals to JSON with error positions",
+    "usage": "node tools/tomlpeek.js Cargo.toml --json",
+    "tags": [
+      "data",
+      "toml",
+      "config",
       "cli"
     ]
   },
@@ -309,6 +609,17 @@
     ]
   },
   {
+    "link": "tools/tsv2md.js",
+    "name": "tsv2md",
+    "desc": "Convert TSV/CSV/PSV data into GitHub-flavoured markdown tables with inferred alignment and column widths",
+    "usage": "node tools/tsv2md.js data.tsv --align --max-width 40 --json",
+    "tags": [
+      "data",
+      "markdown",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/unique.js",
     "name": "unique",
     "desc": "Deduplicate lines with Levenshtein/normalized similarity, report clusters",
@@ -317,6 +628,17 @@
       "text",
       "dedupe",
       "fuzzy",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/unitconvert.js",
+    "name": "unitconvert",
+    "desc": "Convert values between units across 14 categories with exact factor tables and a unit lister",
+    "usage": "node tools/unitconvert.js 100 km mi --json",
+    "tags": [
+      "data",
+      "units",
       "cli"
     ]
   },
@@ -332,6 +654,18 @@
     ]
   },
   {
+    "link": "tools/wavinfo.js",
+    "name": "wavinfo",
+    "desc": "Parse WAV/RIFF chunk inventory: audio format, rate, channels, bit depth, duration, metadata",
+    "usage": "node tools/wavinfo.js track.wav --json",
+    "tags": [
+      "data",
+      "audio",
+      "binary",
+      "cli"
+    ]
+  },
+  {
     "link": "tools/xlsx2csv.js",
     "name": "xlsx2csv",
     "desc": "Read an .xlsx workbook using a hand-rolled ZIP reader + zlib and emit CSV",
@@ -341,6 +675,18 @@
       "xlsx",
       "csv",
       "convert",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/yamlpeek.js",
+    "name": "yamlpeek",
+    "desc": "Parse a practical YAML subset to JSON with line numbers in error messages",
+    "usage": "node tools/yamlpeek.js config.yaml --json",
+    "tags": [
+      "data",
+      "yaml",
+      "config",
       "cli"
     ]
   },
