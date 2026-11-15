@@ -123,7 +123,7 @@ while ((m = createRe.exec(clean)) !== null) {
     // strip a leading CONSTRAINT <name> clause so the real clause keyword becomes visible
     let clause = d;
     const namedMatch = clause.match(/^CONSTRAINT\s+[`"[]?([\w$]+)[`"\]]?\s+([\s\S]*)$/i);
-    if (namedMatch) { notes.push({ kind: 'named-constraint', table: name, text: namedMatch[2].slice(0, 40) }); clause = namedMatch[2]; }
+    if (namedMatch) clause = namedMatch[2];
     const upperC = clause.toUpperCase();
     if (/^PRIMARY\s+KEY/i.test(upperC)) {
       const cols = (clause.match(/\(([^)]*)\)/) || [, ''])[1];
@@ -148,14 +148,14 @@ while ((m = createRe.exec(clean)) !== null) {
         if (onDelete) entry.onDelete = onDelete[1].replace(/\s+/g, ' ').toUpperCase();
         entry.source = 'table-definition';
         foreignKeys.push(entry);
-      } else indexes.push({ table: name, name: entry.name, columns: entry.columns, unique: false, source: 'table-definition' });
+      } else indexes.push({ table: tblName, name: entry.name, columns: entry.columns, unique: false, source: 'table-definition' });
       continue;
     }
     if (/^CHECK/i.test(upperC)) { checks.push(clause.slice(0, 120)); continue; }
     if (/^(FULLTEXT|SPATIAL)\b/i.test(upperC)) { continue; }
 
     const cm = clause.match(/^([`"[]?[\w$]+[`"\]]?)\s+([\s\S]+)$/);
-    if (!cm) { notes.push({ kind: 'unparsed-column', table: name, text: d.slice(0, 60) }); continue; }
+    if (!cm) { notes.push({ kind: 'unparsed-column', table: tblName, text: d.slice(0, 60) }); continue; }
     const colName = cm[1].replace(/[`"\[\]]/g, '');
     const after = cm[2];
     // the type is everything up to the first constraint keyword
@@ -189,7 +189,7 @@ while ((m = createRe.exec(clean)) !== null) {
     if (col.inlineReferences) foreignKeys.push({ name: null, columns: [col.name], references: col.inlineReferences, source: 'inline' });
     columns.push(col);
   }
-  tables.set(name, { name, schema, columns, primaryKey, uniques, foreignKeys, checks, options: opts, insertStatements: insertCounts.get(name) || 0, line: clean.slice(0, m.index).split('\n').length });
+  tables.set(tblName, { name: tblName, schema, columns, primaryKey, uniques, foreignKeys, checks, options: opts, insertStatements: insertCounts.get(tblName) || 0, line: clean.slice(0, m.index).split('\n').length });
 }
 
 const idxRe = /CREATE\s+(UNIQUE\s+)?INDEX\s+([`"[]?[\w$]+[`"\]]?)\s+ON\s+([`"[]?[\w$.]+[`"\]]?)\s*\(([^)]*)\)/gi;
