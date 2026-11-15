@@ -5,7 +5,7 @@
 // @desc Parse a practical YAML subset to JSON with line numbers in error messages
 // @usage node tools/yamlpeek.js config.yaml --json
 // @tags data,yaml,config,cli
-import { args, get, num, flag, die, readInput, table } from '../_lib.js';
+import { args, get, num, flag, die, readInput, table, lines } from '../_lib.js';
 import { readFileSync } from 'node:fs';
 
 const HELP = `yamlpeek — YAML subset reader
