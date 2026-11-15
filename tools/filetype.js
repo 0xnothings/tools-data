@@ -220,7 +220,16 @@ function scanOne(path) {
     signatureOffset: best ? best.offset : null,
     alternatives: hits.slice(1, 4).map((h) => h.name),
     entropy: (() => { const c = new Array(256).fill(0); for (const b of buf) c[b]++; let e = 0; for (const n of c) if (n) { const p = n / buf.length; e -= p * Math.log2(p); } return Number(e.toFixed(3)); })(),
-    textLike: buf.length > 0 && !buf.slice(0, 512).some((x) => x === 0) && [...buf.slice(0, 256)].filter((x) => x >= 0x20 || x === 9 || x === 10 || x === 13).length > 200,
+    // text detection must be a RATIO, not an absolute count. A 60-byte markdown
+    // file cannot produce 200 printable bytes, so an absolute threshold reported
+    // every short text file as binary.
+    textLike: (() => {
+      const head = buf.slice(0, 512);
+      if (!head.length) return false;
+      if (head.some((x) => x === 0)) return false;
+      const printable = [...head.slice(0, 256)].filter((x) => x >= 0x20 || x === 9 || x === 10 || x === 13).length;
+      return printable / Math.min(head.length, 256) >= 0.9;
+    })(),
     hasShebang: buf.slice(0, 2).toString('latin1') === '#!',
     shebang: buf.slice(0, 2).toString('latin1') === '#!' ? buf.slice(2, buf.indexOf(0x0a)).toString('utf8') : null,
     bom: buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf ? 'UTF-8 BOM' : buf.length >= 2 && buf[0] === 0xff && buf[1] === 0xfe ? 'UTF-16LE BOM' : null,

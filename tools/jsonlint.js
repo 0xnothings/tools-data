@@ -68,21 +68,32 @@ function lintText(text, path) {
     add('error', 'parse-error', e.message, { line, col });
   }
 
-  // comment syntax
+  // comment syntax — must be string-aware.
+  //
+  // A naive /\/\// regex matches inside any string literal, so every JSON file
+  // containing a URL ("https://...") was reported as having comments. Walk the
+  // document tracking quote state and escapes instead.
   if (!flag(o, 'allow-comments')) {
-    const lc = /(^|[\s,:\[{])\/\/[^\n]*/g;
-    let m, n = 0;
-    while ((m = lc.exec(body)) !== null && n < sampleN) {
-      const l = lineColOf(body, m.index);
-      add('warning', 'comment', `// comment at line ${l.line} — not valid JSON`, { line: l.line, col: l.col, sample: m[0].trim().slice(0, 60) });
-      n++;
-    }
-    const bc = /\/\*[\s\S]*?\*\//g;
-    let bm, bn = 0;
-    while ((bm = bc.exec(body)) !== null && bn < sampleN) {
-      const l = lineColOf(body, bm.index);
-      add('warning', 'comment', `/* */ comment at line ${l.line} — not valid JSON`, { line: l.line, col: l.col, sample: bm[0].slice(0, 60) });
-      bn++;
+    const commentStarts = (text) => {
+      const found = [];
+      let inStr = false, esc = false;
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i], next = text[i + 1];
+        if (inStr) {
+          if (esc) { esc = false; continue; }
+          if (c === '\\') { esc = true; continue; }
+          if (c === '"') inStr = false;
+          continue;
+        }
+        if (c === '"') { inStr = true; continue; }
+        if (c === '/' && next === '/') { const end = text.indexOf('\n', i); found.push({ kind: '//', start: i, end: end === -1 ? text.length : end }); i = (end === -1 ? text.length : end) - 1; continue; }
+        if (c === '/' && next === '*') { const end = text.indexOf('*/', i + 2); found.push({ kind: '/* */', start: i, end: end === -1 ? text.length : end + 2 }); i = (end === -1 ? text.length : end + 1); continue; }
+      }
+      return found;
+    };
+    for (const c of commentStarts(body).slice(0, sampleN)) {
+      const l = lineColOf(body, c.start);
+      add('warning', 'comment', `${c.kind} comment at line ${l.line} — not valid JSON`, { line: l.line, col: l.col, sample: body.slice(c.start, c.start + 60).trim() });
     }
   }
 
