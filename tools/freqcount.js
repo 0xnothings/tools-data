@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // freqcount.js — word, line and n-gram frequency with stopword filtering.
 // Copyright (c) 2026 0xnothings
 // @tool freqcount

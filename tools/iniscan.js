@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // iniscan.js — INI/config parser and auditor: duplicate keys, quoting, whitespace, secrets.
 // Copyright (c) 2026 0xnothings
 // @tool iniscan

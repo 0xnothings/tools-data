@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // bmpread.js — BMP header parser (v2/v3/v4/v5 DIB): geometry, bpp, compression, palette.
 // Copyright (c) 2026 0xnothings
 // @tool bmpread

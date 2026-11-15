@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // schemadump.js — extract a schema from a SQL dump: CREATE TABLE into tables, columns, keys, indexes.
 // Copyright (c) 2026 0xnothings
 // @tool schemadump

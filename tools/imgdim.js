@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // imgdim.js — read image dimensions from magic bytes, no dependencies.
 // Copyright (c) 2026 0xnothings
 // @tool imgdim

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // strings.js — extract printable strings with encoding, offset, length and regex filters.
 // Copyright (c) 2026 0xnothings
 // @tool strings

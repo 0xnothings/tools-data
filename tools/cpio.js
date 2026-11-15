@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // cpio.js — cpio archive reader (newc/crc/odc/odc-binary): entries with names, sizes, modes.
 // Copyright (c) 2026 0xnothings
 // @tool cpio

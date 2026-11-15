@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonpath.js — query and mutate JSON with a JSONPath subset.
 // Copyright (c) 2026 0xnothings
 // @tool jsonpath

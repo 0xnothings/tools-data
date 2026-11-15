@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // binarydiff.js — byte-level diff of two files: offset-anchored hunks, prefix/suffix trim, per-region entropy.
 // Copyright (c) 2026 0xnothings
 // @tool binarydiff

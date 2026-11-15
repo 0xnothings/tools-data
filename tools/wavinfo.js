@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // wavinfo.js — WAV/RIFF chunk parser: format, rate, channels, duration, metadata inventory.
 // Copyright (c) 2026 0xnothings
 // @tool wavinfo

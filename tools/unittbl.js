@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // unittbl.js — convert and tabulate byte sizes, durations and numeric units.
 // Copyright (c) 2026 0xnothings
 // @tool unittbl

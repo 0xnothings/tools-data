@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsondiff.js — structural diff of two JSON documents with paths and types.
 // Copyright (c) 2026 0xnothings
 // @tool jsondiff

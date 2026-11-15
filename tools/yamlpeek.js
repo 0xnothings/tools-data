@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // yamlpeek.js — minimal YAML reader (mappings, sequences, scalars, block scalars) producing JSON.
 // Copyright (c) 2026 0xnothings
 // @tool yamlpeek

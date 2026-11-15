@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvsample.js — reservoir sampling of N rows from a huge CSV in one pass.
 // Copyright (c) 2026 0xnothings
 // @tool csvsample

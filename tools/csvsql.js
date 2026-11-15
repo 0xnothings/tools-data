@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvsql.js — run a SQL subset over a CSV file with a hand-written tokenizer and parser.
 // Copyright (c) 2026 0xnothings
 // @tool csvsql

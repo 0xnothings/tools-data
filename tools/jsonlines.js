@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonlines.js — NDJSON <-> JSON array conversion with filtering and sampling.
 // Copyright (c) 2026 0xnothings
 // @tool jsonlines

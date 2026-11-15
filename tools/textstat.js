@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // textstat.js — readability metrics: Flesch, syllables, readability grades, top words.
 // Copyright (c) 2026 0xnothings
 // @tool textstat

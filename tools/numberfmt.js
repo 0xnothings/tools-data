@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // numberfmt.js — number formatting: separators, SI/IEC bytes, sig figs, engineering notation.
 // Copyright (c) 2026 0xnothings
 // @tool numberfmt

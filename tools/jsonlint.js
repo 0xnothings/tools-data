@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonlint.js — JSON auditor: duplicate keys, precision loss, BOM, comments, NaN, deep nesting.
 // Copyright (c) 2026 0xnothings
 // @tool jsonlint

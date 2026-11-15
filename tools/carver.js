@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // carver.js — recover embedded files from a raw blob by magic header + footer scanning.
 // Copyright (c) 2026 0xnothings
 // @tool carver

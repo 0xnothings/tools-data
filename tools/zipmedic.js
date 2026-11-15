@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // zipmedic.js — inspect a ZIP: central directory, compression, CRCs, corruption.
 // Copyright (c) 2026 0xnothings
 // @tool zipmedic

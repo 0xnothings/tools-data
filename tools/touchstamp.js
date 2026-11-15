@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // touchstamp.js — bulk adjust file mtimes from a CSV manifest.
 // Copyright (c) 2026 0xnothings
 // @tool touchstamp

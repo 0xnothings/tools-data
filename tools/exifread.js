@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // exifread.js — minimal JPEG EXIF/TIFF parser, no dependencies.
 // Copyright (c) 2026 0xnothings
 // @tool exifread

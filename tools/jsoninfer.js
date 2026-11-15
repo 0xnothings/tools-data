@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsoninfer.js — infer a JSON Schema-ish schema from sample JSON data.
 // Copyright (c) 2026 0xnothings
 // @tool jsoninfer

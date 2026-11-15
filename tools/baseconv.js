@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // baseconv.js — base 2-36 conversion for integers with BigInt support.
 // Copyright (c) 2026 0xnothings
 // @tool baseconv

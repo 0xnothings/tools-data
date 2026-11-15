@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // targz.js — tar (ustar/GNU/PAX) header parser and gzip reader: list entries or extract.
 // Copyright (c) 2026 0xnothings
 // @tool targz

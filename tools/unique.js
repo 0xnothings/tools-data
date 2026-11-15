@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // unique.js — fuzzy line dedupe with Levenshtein clustering.
 // Copyright (c) 2026 0xnothings
 // @tool unique

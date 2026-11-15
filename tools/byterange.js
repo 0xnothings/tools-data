@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // byterange.js — read, extract, splice or patch byte ranges with hash verification.
 // Copyright (c) 2026 0xnothings
 // @tool byterange

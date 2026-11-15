@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvjoin.js — join two CSV files on a key column, report unmatched counts.
 // Copyright (c) 2026 0xnothings
 // @tool csvjoin

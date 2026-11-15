@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvfix.js — repair a broken CSV: quoting, delimiters, BOM, ragged rows.
 // Copyright (c) 2026 0xnothings
 // @tool csvfix

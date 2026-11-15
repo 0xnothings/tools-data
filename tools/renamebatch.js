@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // renamebatch.js — regex bulk rename with dry-run preview and undo script.
 // Copyright (c) 2026 0xnothings
 // @tool renamebatch

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // icoextract.js — read ICO/CUR containers: enumerate embedded PNG/BMP frames, extract by index.
 // Copyright (c) 2026 0xnothings
 // @tool icoextract

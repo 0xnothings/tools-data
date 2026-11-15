@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // tomlpeek.js — TOML subset reader (tables, arrays, inline tables, dates, quotes) producing JSON.
 // Copyright (c) 2026 0xnothings
 // @tool tomlpeek

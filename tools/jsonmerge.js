@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonmerge.js — deep merge JSON documents with a conflict policy and a conflict report.
 // Copyright (c) 2026 0xnothings
 // @tool jsonmerge

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // tsv2md.js — convert TSV/CSV into markdown tables with alignment inference and width control.
 // Copyright (c) 2026 0xnothings
 // @tool tsv2md

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // graphtext.js — ASCII charts from numeric series: sparkline, bar, histogram, boxplot.
 // Copyright (c) 2026 0xnothings
 // @tool graphtext

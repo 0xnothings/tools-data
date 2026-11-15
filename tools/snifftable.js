@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // snifftable.js — parse textual packet summaries or CSV exports into talker/port/protocol tables.
 // Copyright (c) 2026 0xnothings
 // @tool snifftable

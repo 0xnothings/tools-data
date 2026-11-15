@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // treejson.js — directory tree as JSON with sizes and per-extension totals.
 // Copyright (c) 2026 0xnothings
 // @tool treejson

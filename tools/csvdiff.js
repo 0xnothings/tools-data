@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvdiff.js — key-based diff of two CSVs: added, removed, changed rows.
 // Copyright (c) 2026 0xnothings
 // @tool csvdiff

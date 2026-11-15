@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // netflowstat.js — aggregate flow records (CSV/JSON) into per-host byte, packet and port totals.
 // Copyright (c) 2026 0xnothings
 // @tool netflowstat

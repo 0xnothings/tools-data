@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // sqlitepeek.js — read a SQLite file's header, page geometry and schema, no deps.
 // Copyright (c) 2026 0xnothings
 // @tool sqlitepeek

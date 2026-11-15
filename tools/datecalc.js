@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // datecalc.js — date arithmetic CLI: add/subtract, diff, workdays, ISO week.
 // Copyright (c) 2026 0xnothings
 // @tool datecalc

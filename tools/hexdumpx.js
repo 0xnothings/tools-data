@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // hexdumpx.js — hexdump with width/grouping/offset-base control and reverse (hex-to-binary) mode.
 // Copyright (c) 2026 0xnothings
 // @tool hexdumpx

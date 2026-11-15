@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonsplit.js — split a large JSON array into N shards by count or size, with an index manifest.
 // Copyright (c) 2026 0xnothings
 // @tool jsonsplit

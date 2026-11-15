@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvjson.js — convert CSV to JSON and JSON to CSV with correct quoting.
 // Copyright (c) 2026 0xnothings
 // @tool csvjson

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // unitconvert.js — unit conversion across length, mass, volume, temperature, pressure, energy, data, time.
 // Copyright (c) 2026 0xnothings
 // @tool unitconvert

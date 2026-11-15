@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // filetype.js — magic-byte file type identification across 90+ formats, extension-agnostic.
 // Copyright (c) 2026 0xnothings
 // @tool filetype

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonmask.js — redact PII-looking fields in JSON with a policy and an auditable trail.
 // Copyright (c) 2026 0xnothings
 // @tool jsonmask

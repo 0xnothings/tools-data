@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // binsplit.js — split a binary by size or pattern offset, with checksum-verified reassembly.
 // Copyright (c) 2026 0xnothings
 // @tool binsplit

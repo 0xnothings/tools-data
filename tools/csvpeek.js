@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // csvpeek.js — sniff delimiter, headers, column types and a sample from CSV/TSV.
 // Copyright (c) 2026 0xnothings
 // @tool csvpeek

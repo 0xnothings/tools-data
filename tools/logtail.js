@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // logtail.js — tail-like log reader with filtering, follow-simulation and JSON output.
 // Copyright (c) 2026 0xnothings
 // @tool logtail

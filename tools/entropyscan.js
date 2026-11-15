@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // entropyscan.js — per-block Shannon entropy scan to find encrypted or compressed payloads.
 // Copyright (c) 2026 0xnothings
 // @tool entropyscan

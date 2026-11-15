@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsonflatten.js — flatten or unflatten nested JSON with separator control and round-trip proof.
 // Copyright (c) 2026 0xnothings
 // @tool jsonflatten

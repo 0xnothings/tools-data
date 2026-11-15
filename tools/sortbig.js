@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // sortbig.js — external merge sort for files larger than RAM.
 // Copyright (c) 2026 0xnothings
 // @tool sortbig

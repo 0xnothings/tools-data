@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // xlsx2csv.js — minimal XLSX reader (zip + sharedStrings + sheet) to CSV, no deps.
 // Copyright (c) 2026 0xnothings
 // @tool xlsx2csv

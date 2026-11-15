@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // hashdir.js — hash every file in a tree and emit a verifiable manifest.
 // Copyright (c) 2026 0xnothings
 // @tool hashdir

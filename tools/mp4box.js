@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // mp4box.js — ISO-BMFF / MP4 box tree parser: tracks, codecs, durations, handler types.
 // Copyright (c) 2026 0xnothings
 // @tool mp4box

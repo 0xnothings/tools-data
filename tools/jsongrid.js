@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // jsongrid.js — flatten a nested JSON array into a table, auto-discovering columns.
 // Copyright (c) 2026 0xnothings
 // @tool jsongrid

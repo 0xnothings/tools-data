@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // sqlformat.js — SQL beautifier with keyword casing, indent control and a literal-aware splitter.
 // Copyright (c) 2026 0xnothings
 // @tool sqlformat

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // dupefind.js — content-hash duplicate finder with reclaimable-byte accounting.
 // Copyright (c) 2026 0xnothings
 // @tool dupefind
