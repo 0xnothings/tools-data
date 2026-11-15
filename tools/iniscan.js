@@ -59,9 +59,9 @@ function parseIni(text, path) {
   const boolSpellings = new Map();
   const globalKeys = [];
 
-  const ensure = (name) => {
-    if (!sections.has(name)) { sections.set(name, { name, keys: [], index: sectionOrder.length }); sectionOrder.push(name); }
-    return sections.get(name);
+  const ensure = (sectionName) => {
+    if (!sections.has(sectionName)) { sections.set(sectionName, { name: sectionName, keys: [], index: sectionOrder.length }); sectionOrder.push(sectionName); }
+    return sections.get(sectionName);
   };
 
   lines.forEach((rawLine, idx) => {
@@ -71,12 +71,12 @@ function parseIni(text, path) {
     if (trimmed.startsWith(';') || trimmed.startsWith('#')) return;
     const sec = trimmed.match(/^\[([^\]]*)\]\s*(.*)$/);
     if (sec) {
-      const name = lower ? sec[1].trim().toLowerCase() : sec[1].trim();
-      if (sec[2] && !/^[;#]/.test(sec[2])) add('warning', 'trailing-content-after-section', { line: lineNo, message: `text after the section header: ${JSON.stringify(sec[2].slice(0, 40))}` });
-      if (!name) add('error', 'empty-section-name', { line: lineNo, message: 'section header with an empty name' });
-      if (seenSections.has(name)) add('warning', 'duplicate-section', { line: lineNo, section: name, message: `section [${name}] repeats (first at line ${seenSections.get(name)})` });
-      else seenSections.set(name, lineNo);
-      current = ensure(name);
+      const sectionName = lower ? sec[1].trim().toLowerCase() : sec[1].trim();
+      if (sec[2] && !/^[;#]/.test(sec[2])) add('warning', 'trailing-content-after-section', { line: lineNo, section: sectionName, message: `text after the section header: ${JSON.stringify(sec[2].slice(0, 40))}` });
+      if (!sectionName) add('error', 'empty-section-name', { line: lineNo, message: 'section header with an empty name' });
+      if (seenSections.has(sectionName)) add('warning', 'duplicate-section', { line: lineNo, section: sectionName, message: `section [${sectionName}] repeats (first at line ${seenSections.get(sectionName)})` });
+      else seenSections.set(sectionName, lineNo);
+      current = ensure(sectionName);
       currentStart = lineNo;
       return;
     }

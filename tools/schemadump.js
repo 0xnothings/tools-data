@@ -91,7 +91,7 @@ const createRe = /CREATE\s+(?:TEMPORARY\s+|UNLOGGED\s+|GLOBAL\s+TEMPORARY\s+)?TA
 let m;
 while ((m = createRe.exec(clean)) !== null) {
   const rawName = m[1].replace(/[`"\[\]]/g, '');
-  const name = rawName.split('.').pop();
+  const tblName = rawName.split('.').pop();
   const schema = rawName.includes('.') ? rawName.split('.').slice(0, -1).join('.') : null;
   const openAt = m.index + m[0].length - 1;
   let depth = 0, i = openAt, body = '';

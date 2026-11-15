@@ -236,7 +236,7 @@ function scanOne(path) {
         const nlen = buf.readUInt16LE(p + 26), xlen = buf.readUInt16LE(p + 28);
         const entryName = buf.slice(p + 30, p + 30 + nlen).toString('utf8');
         const csize = buf.readUInt32LE(p + 18);
-        entries.push({ name, compressedSize: csize });
+        entries.push({ name: entryName, compressedSize: csize });
         p += 30 + nlen + xlen + csize;
       }
       rec.zipEntries = entries;

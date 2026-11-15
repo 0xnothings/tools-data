@@ -123,10 +123,10 @@ const total = bounds.length - 1;
 for (let i = 0; i < total; i++) {
   const slice = buf.slice(bounds[i], bounds[i + 1]);
   if (!slice.length) continue;
-  const name = `${prefix}.part${String(i).padStart(4, '0')}of${String(total).padStart(4, '0')}`;
-  const path = join(outDir, name);
+  const partName = `${prefix}.part${String(i).padStart(4, '0')}of${String(total).padStart(4, '0')}`;
+  const path = join(outDir, partName);
   writeFileSync(path, slice);
-  parts.push({ index: i, file: name, path, offset: bounds[i], bytes: slice.length, sha256: sha(slice), preview: slice.slice(0, 16).toString('hex') });
+  parts.push({ index: i, file: partName, path, offset: bounds[i], bytes: slice.length, sha256: sha(slice), preview: slice.slice(0, 16).toString('hex') });
 }
 
 const report = {

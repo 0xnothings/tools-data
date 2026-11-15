@@ -103,11 +103,11 @@ let totalElements = 0;
 shards.forEach((s, i) => {
   const body = wrapKey ? { [wrapKey]: s.elements } : s.elements;
   const serialised = JSON.stringify(body, null, pretty ? 2 : 0) + '\n';
-  const name = `${prefix}.part${String(i).padStart(4, '0')}.json`;
-  const path = join(outDir, name);
+  const shardName = `${prefix}.part${String(i).padStart(4, '0')}.json`;
+  const path = join(outDir, shardName);
   writeFileSync(path, serialised);
   const rec = {
-    index: i, file: name, path, elements: s.elements.length,
+    index: i, file: shardName, path, elements: s.elements.length,
     from: totalElements, to: totalElements + s.elements.length - 1,
     bytes: Buffer.byteLength(serialised, 'utf8'),
     sha256: sha(Buffer.from(serialised, 'utf8')),
