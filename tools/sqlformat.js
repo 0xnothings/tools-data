@@ -215,7 +215,12 @@ const report = {
 if (flag(o, 'split')) {
   report.split = statements.map((s, i) => ({ index: i, verb: s.verb, firstLine: s.line, lastLine: s.endLine, chars: s.text.length, sql: s.text + (s.text.trim().endsWith(';') ? '' : ';') }));
 } else {
-  report.formatted = statements.map(formatStatement).join('\n\n');
+  // formatStatement takes a TOKEN ARRAY. The statement objects in `statements`
+  // wrap that array in `.tokens`, so passing the object made it iterate
+  // {verb, verbPhrase, line, ...} as if they were tokens — every property was
+  // undefined, the formatter emitted nothing, and the tool still reported
+  // "FORMATTED SQL". Pass the tokens.
+  report.formatted = statements.map((s) => formatStatement(s.tokens)).join('\n\n');
 }
 
 const outFile = get(o, 'out', null);

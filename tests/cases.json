@@ -1,0 +1,196 @@
+{
+  "note": "Per-tool output assertions. Run with: node assertcheck.js --update to record goldens, then node assertcheck.js to verify. Fixtures use {tmp}/name placeholders. Assertions marked 'regression' guard a bug that actually shipped.",
+  "cases": [
+    {
+      "tool": "filetype.js",
+      "args": ["{tmp}/short.md"],
+      "fixtures": { "short.md": "# title\n\nA short markdown file.\n" },
+      "expect": {
+        "exit": 0,
+        "stdout_contains": ["text-like            yes"],
+        "stdout_not_contains": ["text-like            no"]
+      }
+    },
+    {
+      "tool": "filetype.js",
+      "args": ["{tmp}/tiny.txt"],
+      "fixtures": { "tiny.txt": "hi\n" },
+      "expect": { "exit": 0, "stdout_contains": ["text-like            yes"] }
+    },
+    {
+      "tool": "filetype.js",
+      "args": ["{tmp}/blob.bin"],
+      "fixtures": { "blob.bin": "\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007binary garbage that should not be text\u0000\u0001" },
+      "expect": { "exit": 0, "stdout_contains": ["text-like            no"] }
+    },
+    {
+      "tool": "filetype.js",
+      "args": ["{tmp}/a.gz"],
+      "fixtures_b64": { "a.gz": "H4sIAAAAAAAAAw==" },
+      "expect": { "exit": 0, "stdout_contains": ["application/gzip", "archive"] }
+    },
+    {
+      "tool": "jsonlint.js",
+      "args": ["{tmp}/url.json"],
+      "fixtures": { "url.json": "{\"homepage\":\"https://example.com/a//b\",\"bugs\":\"https://x.test/issues\"}\n" },
+      "expect": { "exit": 0, "stdout_contains": ["no findings"], "stdout_not_contains": ["comment"] }
+    },
+    {
+      "tool": "jsonlint.js",
+      "args": ["{tmp}/comment.json"],
+      "fixtures": { "comment.json": "{\n  // real comment\n  \"a\": 1\n}\n" },
+      "expect": { "exit": 1, "stdout_contains": ["// comment"], "stdout_regex": ["1 error"] }
+    },
+    {
+      "tool": "jsonlint.js",
+      "args": ["{tmp}/dup.json"],
+      "fixtures": { "dup.json": "{\"a\":1,\"a\":2}\n" },
+      "expect": { "exit": 1, "stdout_contains": ["duplicate key \"a\""] }
+    },
+    {
+      "tool": "jsonlint.js",
+      "args": ["{tmp}/big.json"],
+      "fixtures": { "big.json": "{\"n\": 9007199254740993}\n" },
+      "expect": { "exit": 0, "stdout_contains": ["precision"] }
+    },
+    {
+      "tool": "csvpeek.js",
+      "args": ["{tmp}/t.csv"],
+      "fixtures": { "t.csv": "id,name,score\n1,alice,9\n2,bob,7\n3,carol,8\n" },
+      "expect": { "exit": 0, "stdout_contains": ["comma", "rows       3", "integer", "string"] }
+    },
+    {
+      "tool": "csvsql.js",
+      "args": ["{tmp}/t.csv", "SELECT name FROM t WHERE score > 7 ORDER BY score DESC"],
+      "fixtures": { "t.csv": "id,name,score\n1,alice,9\n2,bob,7\n3,carol,8\n" },
+      "expect": { "exit": 0, "stdout_contains": ["alice", "carol"], "stdout_not_contains": ["bob"] }
+    },
+    {
+      "tool": "csvsql.js",
+      "args": ["{tmp}/t.csv", "SELECT name FROM t WHERE score >= 8 ORDER BY score DESC LIMIT 1"],
+      "fixtures": { "t.csv": "id,name,score\n1,alice,9\n2,bob,7\n3,carol,8\n" },
+      "expect": { "exit": 0, "stdout_contains": ["alice"], "stdout_not_contains": ["bob", "carol"] }
+    },
+    {
+      "tool": "csvsql.js",
+      "args": ["{tmp}/t.csv", "SELECT name FROM t WHERE name LIKE 'a%'"],
+      "fixtures": { "t.csv": "id,name\n1,alice\n2,bob\n" },
+      "expect": { "exit": 0, "stdout_contains": ["alice"], "stdout_not_contains": ["bob"] }
+    },
+    {
+      "tool": "jsondiff.js",
+      "args": ["{tmp}/o.json", "{tmp}/n.json"],
+      "fixtures": { "o.json": "{\"a\":1,\"b\":{\"c\":1}}\n", "n.json": "{\"a\":2,\"b\":{\"c\":1},\"d\":true}\n" },
+      "expect": {
+        "exit": 2,
+        "stdout_contains": ["/a", "/d", "2 change(s)"],
+        "stdout_regex": ["1 changed", "1 added"]
+      }
+    },
+    {
+      "tool": "baseconv.js",
+      "args": ["255", "--from", "10", "--to", "16"],
+      "expect": { "exit": 0, "stdout_contains": ["ff"] }
+    },
+    {
+      "tool": "baseconv.js",
+      "args": ["deadbeef", "--from", "16", "--to", "10"],
+      "expect": { "exit": 0, "stdout_contains": ["3735928559"] }
+    },
+    {
+      "tool": "unitconvert.js",
+      "args": ["1", "km", "mi"],
+      "expect": { "exit": 0, "stdout_regex": ["0\\.621"] }
+    },
+    {
+      "tool": "unitconvert.js",
+      "args": ["100", "c", "f"],
+      "expect": { "exit": 0, "stdout_contains": ["212"] }
+    },
+    {
+      "tool": "numberfmt.js",
+      "args": ["1234567"],
+      "expect": { "exit": 0, "stdout_contains": ["1,234,567"] }
+    },
+    {
+      "tool": "datecalc.js",
+      "args": ["2026-01-31", "--add", "1mo"],
+      "expect": { "exit": 0, "stdout_contains": ["28 Feb 2026"], "stdout_not_contains": ["1 Mar 2026", "2 Mar 2026"] }
+    },
+    {
+      "tool": "datecalc.js",
+      "args": ["2026-01-01", "2026-03-01"],
+      "expect": { "exit": 0, "stdout_regex": ["59|60"] }
+    },
+    {
+      "tool": "datecalc.js",
+      "args": ["2026-01-31", "--add", "1mo", "--tz", "+07:00"],
+      "expect": { "exit": 0, "stdout_contains": ["2026-02-27T17:00:00.000Z"] }
+    },
+    {
+      "tool": "tsv2md.js",
+      "args": ["{tmp}/t.csv"],
+      "fixtures": { "t.csv": "a,b\n1,2\n" },
+      "expect": { "exit": 0, "stdout_contains": ["| a", "| 1"] }
+    },
+    {
+      "tool": "iniscan.js",
+      "args": ["{tmp}/c.cfg"],
+      "fixtures": { "c.cfg": "[s]\nurl = \"https://example.com/a//b\"\nkey = v\n" },
+      "expect": { "exit": 0, "stdout_not_contains": ["comment"] }
+    },
+    {
+      "tool": "tomlpeek.js",
+      "args": ["{tmp}/t.toml"],
+      "fixtures": { "t.toml": "[table]\nurl = \"https://example.com/x\"\nn = 42\n" },
+      "expect": { "exit": 0, "stdout_contains": ["example.com", "42"] }
+    },
+    {
+      "tool": "yamlpeek.js",
+      "args": ["{tmp}/t.yaml"],
+      "fixtures": { "t.yaml": "name: test\nitems:\n  - a\n  - b\n" },
+      "expect": { "exit": 0, "stdout_contains": ["test", "a", "b"] }
+    },
+    {
+      "tool": "sqlformat.js",
+      "args": ["{tmp}/q.sql"],
+      "fixtures": { "q.sql": "select a,b from t where id=1 and name='x' order by a;\n" },
+      "expect": { "exit": 0, "stdout_regex": ["SELECT"], "stdout_contains": ["FROM", "WHERE", "ORDER BY"] }
+    },
+    {
+      "tool": "hexdumpx.js",
+      "args": ["{tmp}/h.txt"],
+      "fixtures": { "h.txt": "ABCDEFGH" },
+      "expect": { "exit": 0, "stdout_contains": ["41 42 43 44", "ABCDEFGH"] }
+    },
+    {
+      "tool": "entropyscan.js",
+      "args": ["{tmp}/plain.txt"],
+      "fixtures": { "plain.txt": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n" },
+      "expect": { "exit": 0, "stdout_regex": ["entropy|block"] }
+    },
+    {
+      "tool": "strings.js",
+      "args": ["{tmp}/s.bin", "--min", "4", "--limit", "5"],
+      "fixtures": { "s.bin": "\u0000\u0001hello-world\u0000\u0002another-string\u0000" },
+      "expect": { "exit": 0, "stdout_contains": ["hello-world", "another-string"] }
+    },
+    {
+      "tool": "jsonflatten.js",
+      "args": ["{tmp}/o.json"],
+      "fixtures": { "o.json": "{\"a\":{\"b\":{\"c\":1}},\"d\":[1,2]}\n" },
+      "expect": { "exit": 0, "stdout_contains": ["a.b.c"] }
+    },
+    {
+      "tool": "jsonmask.js",
+      "args": ["{tmp}/o.json"],
+      "fixtures": { "o.json": "{\"email\":\"a@b.com\",\"ip\":\"1.2.3.4\",\"name\":\"keep\"}\n" },
+      "expect": { "exit": 0, "stdout_not_contains": ["a@b.com"] }
+    },
+    {
+      "tool": "targz.js",
+      "args": ["{tmp}/missing.tgz"],
+      "expect": { "exit": 1, "stdout_not_contains": ["at ModuleJob"], "no_stack": true }
+    }
+  ]
+}

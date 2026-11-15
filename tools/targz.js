@@ -6,7 +6,7 @@
 // @usage node tools/targz.js archive.tar.gz --json
 // @tags data,archive,cli
 import { args, get, num, flag, die, table, fmt } from '../_lib.js';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
 import { join, normalize, isAbsolute } from 'node:path';
 
@@ -43,6 +43,10 @@ const TYPE_NAMES = {
 };
 
 function load(path) {
+  // A missing input is a user error, not a crash: without this the raw ENOENT
+  // escapes as an uncaught exception (exit 7 with a Node stack trace) instead of
+  // a one-line message and a clean exit code.
+  if (!existsSync(path)) die(`no such file: ${path}`);
   const raw = readFileSync(path);
   if (raw.length > 2 && raw[0] === 0x1f && raw[1] === 0x8b) {
     try { return { bytes: gunzipSync(raw), gzip: true }; }
