@@ -2,6 +2,8 @@
 
 Zero-dependency Node.js tools for data wrangling: CSV, JSON, ZIP, XLSX, SQLite headers, image metadata, and text analytics. Hand-written parsers, no dependencies, no native modules.
 
+**[Landing page](https://0xnothings.github.io) · [All four repos](https://github.com/0xnothings)**
+
 ```bash
 node tools/csvpeek.js data.csv
 node tools/csvsql.js data.csv "SELECT name, score FROM t WHERE score > 7"
