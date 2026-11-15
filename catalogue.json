@@ -1,0 +1,359 @@
+[
+  {
+    "link": "tools/baseconv.js",
+    "name": "baseconv",
+    "desc": "Convert integers between bases 2-36 with BigInt precision and bit utilities",
+    "usage": "node tools/baseconv.js \"deadbeef\" --from 16 --to 2",
+    "tags": [
+      "numbers",
+      "convert",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvdiff.js",
+    "name": "csvdiff",
+    "desc": "Key-based CSV diff reporting added, removed and changed rows field by field",
+    "usage": "node tools/csvdiff.js old.csv new.csv --key id",
+    "tags": [
+      "data",
+      "csv",
+      "diff",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvfix.js",
+    "name": "csvfix",
+    "desc": "Repair malformed CSV: strip BOM, fix quote imbalance, normalize delimiters and widths",
+    "usage": "node tools/csvfix.js broken.csv --report",
+    "tags": [
+      "data",
+      "csv",
+      "repair",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvjoin.js",
+    "name": "csvjoin",
+    "desc": "Inner/left/right/full join of two CSVs on a key column with unmatched counts",
+    "usage": "node tools/csvjoin.js left.csv right.csv --on id --how left",
+    "tags": [
+      "data",
+      "csv",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvjson.js",
+    "name": "csvjson",
+    "desc": "Convert between CSV and JSON in either direction with RFC4180 quoting",
+    "usage": "node tools/csvjson.js data.csv --to json --typed",
+    "tags": [
+      "data",
+      "csv",
+      "json",
+      "convert",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvpeek.js",
+    "name": "csvpeek",
+    "desc": "Sniff delimiter, headers, column types, uniqueness and a sample from a CSV/TSV file",
+    "usage": "node tools/csvpeek.js data.csv --rows 5",
+    "tags": [
+      "data",
+      "csv",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvsample.js",
+    "name": "csvsample",
+    "desc": "Single-pass reservoir/head/systematic sampling of a huge CSV with O(1) memory",
+    "usage": "node tools/csvsample.js huge.csv --n 100 --seed 42 --json",
+    "tags": [
+      "data",
+      "csv",
+      "sampling",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/csvsql.js",
+    "name": "csvsql",
+    "desc": "Query a CSV file with a SQL subset: SELECT cols WHERE cond ORDER BY LIMIT",
+    "usage": "node tools/csvsql.js data.csv \"SELECT name, age WHERE age > 30 ORDER BY age DESC LIMIT 5\"",
+    "tags": [
+      "data",
+      "csv",
+      "sql",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/datecalc.js",
+    "name": "datecalc",
+    "desc": "Date arithmetic: shift dates, diff two dates, business-day math, ISO week",
+    "usage": "node tools/datecalc.js 2026-03-01 --add 45d --workdays",
+    "tags": [
+      "time",
+      "date",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/dupefind.js",
+    "name": "dupefind",
+    "desc": "Find duplicate files by size-then-hash, report reclaimable bytes and clusters",
+    "usage": "node tools/dupefind.js ./photos --min-size 1kb",
+    "tags": [
+      "files",
+      "dedupe",
+      "disk",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/exifread.js",
+    "name": "exifread",
+    "desc": "Parse JPEG EXIF: camera, exposure, orientation, timestamps, GPS coordinates",
+    "usage": "node tools/exifread.js photo.jpg --json",
+    "tags": [
+      "media",
+      "images",
+      "exif",
+      "metadata",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/freqcount.js",
+    "name": "freqcount",
+    "desc": "Word/line/n-gram frequency counts with stopwords, stemming-lite and TF tables",
+    "usage": "node tools/freqcount.js book.txt --mode words --top 25",
+    "tags": [
+      "text",
+      "analysis",
+      "frequency",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/hashdir.js",
+    "name": "hashdir",
+    "desc": "Hash a directory tree into a manifest and verify it later, detecting drift",
+    "usage": "node tools/hashdir.js ./src --algo sha256 --out manifest.json",
+    "tags": [
+      "files",
+      "hashing",
+      "integrity",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/imgdim.js",
+    "name": "imgdim",
+    "desc": "Read width/height/format from PNG, JPEG, GIF, WebP, BMP and TIFF headers",
+    "usage": "node tools/imgdim.js photo.jpg logo.png --json",
+    "tags": [
+      "media",
+      "images",
+      "metadata",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsondiff.js",
+    "name": "jsondiff",
+    "desc": "Structural JSON diff with JSON-pointer paths, type changes and array diffing",
+    "usage": "node tools/jsondiff.js a.json b.json --json",
+    "tags": [
+      "data",
+      "json",
+      "diff",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsongrid.js",
+    "name": "jsongrid",
+    "desc": "Flatten a nested JSON array/object into an aligned table with discovered columns",
+    "usage": "node tools/jsongrid.js data.json --depth 3 --json",
+    "tags": [
+      "data",
+      "json",
+      "table",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsoninfer.js",
+    "name": "jsoninfer",
+    "desc": "Infer a JSON Schema (draft-style) from sample data, merging arrays of objects",
+    "usage": "node tools/jsoninfer.js api-dump.json --required",
+    "tags": [
+      "data",
+      "json",
+      "schema",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsonlines.js",
+    "name": "jsonlines",
+    "desc": "Convert between NDJSON and JSON arrays, filter with predicates, sample rows",
+    "usage": "node tools/jsonlines.js events.ndjson --to array --grep error",
+    "tags": [
+      "data",
+      "json",
+      "ndjson",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/jsonpath.js",
+    "name": "jsonpath",
+    "desc": "Query JSON with a JSONPath subset ($ .key [n] [*] ..key) and set values in place",
+    "usage": "node tools/jsonpath.js data.json '$.items[*].name' --json",
+    "tags": [
+      "data",
+      "json",
+      "query",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/logtail.js",
+    "name": "logtail",
+    "desc": "Tail a log file with grep/level filters, follow simulation, JSON and histogram",
+    "usage": "node tools/logtail.js app.log --lines 100 --grep ERROR --json",
+    "tags": [
+      "logs",
+      "text",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/renamebatch.js",
+    "name": "renamebatch",
+    "desc": "Regex bulk renamer with dry-run preview, collision detection and undo script",
+    "usage": "node tools/renamebatch.js ./shots --find 'IMG_(\\\\d+)' --replace 'photo-$1' --dry-run",
+    "tags": [
+      "files",
+      "rename",
+      "batch",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/sortbig.js",
+    "name": "sortbig",
+    "desc": "External merge sort: chunk, sort, k-way merge with a min-heap; unique and dedupe",
+    "usage": "node tools/sortbig.js huge.log --out sorted.log --chunk 200mb",
+    "tags": [
+      "data",
+      "sort",
+      "bigdata",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/sqlitepeek.js",
+    "name": "sqlitepeek",
+    "desc": "Read-only SQLite inspector: header, page size, schema objects, row counts",
+    "usage": "node tools/sqlitepeek.js app.db --tables",
+    "tags": [
+      "data",
+      "sqlite",
+      "binary",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/textstat.js",
+    "name": "textstat",
+    "desc": "Readability metrics for text: words, sentences, Flesch/Flesch-Kincaid, top words",
+    "usage": "node tools/textstat.js essay.txt --top 15",
+    "tags": [
+      "text",
+      "analysis",
+      "nlp",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/touchstamp.js",
+    "name": "touchstamp",
+    "desc": "Apply mtime/atime to many files from a CSV manifest, with dry-run and skew",
+    "usage": "node tools/touchstamp.js manifest.csv --root ./photos --dry-run",
+    "tags": [
+      "files",
+      "metadata",
+      "csv",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/treejson.js",
+    "name": "treejson",
+    "desc": "Emit a directory tree as JSON with file sizes, per-extension and per-dir totals",
+    "usage": "node tools/treejson.js ./src --depth 3 --json",
+    "tags": [
+      "files",
+      "tree",
+      "json",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/unique.js",
+    "name": "unique",
+    "desc": "Deduplicate lines with Levenshtein/normalized similarity, report clusters",
+    "usage": "node tools/unique.js emails.txt --threshold 2 --keep shortest",
+    "tags": [
+      "text",
+      "dedupe",
+      "fuzzy",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/unittbl.js",
+    "name": "unittbl",
+    "desc": "Convert between byte units, time durations, rates and number scales in a table",
+    "usage": "node tools/unittbl.js 1500mb --to gb --scale --json",
+    "tags": [
+      "units",
+      "convert",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/xlsx2csv.js",
+    "name": "xlsx2csv",
+    "desc": "Read an .xlsx workbook using a hand-rolled ZIP reader + zlib and emit CSV",
+    "usage": "node tools/xlsx2csv.js book.xlsx --sheet 1 --out out.csv",
+    "tags": [
+      "data",
+      "xlsx",
+      "csv",
+      "convert",
+      "cli"
+    ]
+  },
+  {
+    "link": "tools/zipmedic.js",
+    "name": "zipmedic",
+    "desc": "Parse a ZIP central directory, list entries/CRCs, verify and decompress members",
+    "usage": "node tools/zipmedic.js archive.zip --verify",
+    "tags": [
+      "archive",
+      "zip",
+      "cli",
+      "forensics"
+    ]
+  }
+]
