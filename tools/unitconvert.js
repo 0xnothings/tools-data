@@ -126,8 +126,9 @@ const resolve = (name) => {
   return null;
 };
 
-if (flag(o, 'list')) {
-  const only = get(o, 'list', null);
+const listArg = get(o, 'list', null);
+if (flag(o, 'list') || typeof listArg === 'string') {
+  const only = typeof listArg === 'string' ? listArg : get(o, 'list', null);
   const catName = typeof only === 'string' ? only.toLowerCase() : (o._[0] || '').toLowerCase();
   const cats = catName && CATS[catName] ? { [catName]: CATS[catName] } : CATS;
   if (catName && !CATS[catName]) die(`unknown category "${catName}" — try: ${Object.keys(CATS).join(', ')}`);
